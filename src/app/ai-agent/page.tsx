@@ -11,8 +11,15 @@ import {
   Card,
   CardHeader,
   CardContent,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SendIcon from "@mui/icons-material/Send";
+import Groq from "groq-sdk";
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const MODEL = "llama3-groq-70b-8192-tool-use-preview";
 
 // カスタムテーマの作成
 const theme = createTheme({
@@ -24,7 +31,7 @@ const theme = createTheme({
       main: "#dc004e", // セカンダリカラー
     },
     background: {
-      paper: "#F5F4EF", // 背景カラー
+      paper: "#FBF9F3", // 背景カラー
     },
   },
 });
@@ -54,17 +61,15 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Container
         component="main"
-        maxWidth="md"
-        sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
+        sx={{ height: "97vh", display: "flex", flexDirection: "column" }}
       >
         <Paper
-          elevation={3}
+          // elevation={3}
           sx={{
-            padding: "2rem",
+            padding: "1rem",
             flex: "1",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
           }}
         >
           <Box>
@@ -75,6 +80,19 @@ const App = () => {
               value={inputValue}
               onChange={handleInputChange}
               sx={{ flexGrow: 1 }}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <IconButton
+                      type="button"
+                      sx={{ p: "10px" }}
+                      aria-label="send"
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  ),
+                },
+              }}
             />
           </Box>
           <Divider sx={{ my: 2 }} />
@@ -95,7 +113,7 @@ const App = () => {
                 width: "50%",
                 height: "100%",
                 mx: 1,
-                backgroundColor: "F0EEE5",
+                borderColor: "#000000",
               }}
             >
               <CardHeader
